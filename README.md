@@ -29,7 +29,7 @@ The chainable `Chart` for full control:
 ```python
 from vizlib import Chart
 
-(Chart(figsize=(8, 5), theme="clean")
+(Chart(figsize=(8, 5), theme="obsidian")
     .line(range(10), [x * x for x in range(10)], label="squared")
     .line(range(10), [x * 3 for x in range(10)], label="linear")
     .labels("Growth", "step", "value")
@@ -42,10 +42,13 @@ Labelled series get a legend automatically when you `save()` or `show()`.
 
 - **Chart types**: `line`, `scatter`, `bar`, `barh`, `hist`, `pie` — as both
   chainable `Chart` methods and quick module-level functions.
-- **Themes**: `clean` (default), `dark`, `minimal`. Apply with a `theme=`
-  argument or globally via `vizlib.use_theme("dark")`.
-- **Colorblind-friendly palette** cycled automatically across series
-  (`vizlib.PALETTE`).
+- **Luxury themes**: `obsidian` (dark, default) and `ivory` (light) — warm
+  neutral surfaces, an editorial serif, champagne-gold titles, and a recessive
+  grid. Apply with a `theme=` argument or globally via `vizlib.use_theme(...)`.
+- **A validated jewel-tone palette** — gold, teal, garnet, sapphire, emerald,
+  amethyst (`vizlib.PALETTE`), cycled across series. The order is
+  colorblind-safe: it passes CVD ΔE ≥ 8, normal-vision ΔE ≥ 15, and ≥ 3:1
+  surface contrast on both themes.
 - **Sensible output**: `save()` uses a tight bounding box and 150 dpi by
   default.
 

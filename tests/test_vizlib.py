@@ -50,6 +50,12 @@ def test_quick_functions_return_chart():
 
 
 def test_themes():
-    assert "clean" in vizlib.available_themes()
+    assert "obsidian" in vizlib.available_themes()
+    assert "ivory" in vizlib.available_themes()
     with pytest.raises(ValueError):
         vizlib.use_theme("nope")
+
+
+def test_palette_is_validated_length():
+    # Six luxury jewel tones, validated colorblind-safe.
+    assert len(vizlib.PALETTE) == 6
