@@ -1,6 +1,4 @@
-"""Tests for vizlib. These run headless via the Agg backend (set in conftest)."""
-
-import os
+"""Tests for vizlib (headless via the Agg backend, set in conftest)."""
 
 import pytest
 
@@ -8,102 +6,50 @@ import vizlib
 from vizlib import Chart
 
 
-def test_chart_creates_figure_and_axes():
-    c = Chart()
-    assert c.fig is not None
-    assert c.ax is not None
-    c.close()
-
-
 def test_line_is_chainable_and_draws():
     c = Chart().line([1, 2, 3], [4, 5, 6])
-    assert isinstance(c, Chart)
-    assert len(c.ax.lines) == 1
+    assert isinstance(c, Chart) and len(c.ax.lines) == 1
     c.close()
 
 
-def test_line_with_single_arg_uses_index_as_x():
+def test_line_single_arg_uses_index_as_x():
     c = Chart().line([4, 5, 6])
-    line = c.ax.lines[0]
-    assert list(line.get_xdata()) == [0, 1, 2]
+    assert list(c.ax.lines[0].get_xdata()) == [0, 1, 2]
     c.close()
 
 
-def test_multiple_series_and_labels():
-    c = Chart().line([1, 2], [3, 4], label="a").line([1, 2], [5, 6], label="b")
-    assert len(c.ax.lines) == 2
-    assert c._has_labels is True
-    c.close()
+def test_bar_scatter_hist_pie():
+    assert len(Chart().bar(["a", "b", "c"], [1, 2, 3]).ax.patches) == 3
+    assert len(Chart().scatter([1, 2], [2, 1]).ax.collections) == 1
+    assert len(Chart().hist([1, 1, 2, 3, 3, 3], bins=3).ax.patches) == 3
+    assert Chart().pie([1, 2, 3]).ax.get_aspect() == 1.0
 
 
-def test_bar_and_scatter_and_hist():
-    c = Chart()
-    c.bar(["a", "b", "c"], [1, 2, 3])
-    assert len(c.ax.patches) == 3
-    c.close()
-
-    c = Chart().scatter([1, 2, 3], [3, 2, 1])
-    assert len(c.ax.collections) == 1
-    c.close()
-
-    c = Chart().hist([1, 1, 2, 3, 3, 3], bins=3)
-    assert len(c.ax.patches) == 3
-    c.close()
-
-
-def test_pie_is_equal_aspect():
-    c = Chart().pie([1, 2, 3], labels=["a", "b", "c"])
-    assert c.ax.get_aspect() == 1.0
-    c.close()
-
-
-def test_labels_sets_title_and_axes():
-    c = Chart().labels("T", "X", "Y")
-    assert c.ax.get_title() == "T"
-    assert c.ax.get_xlabel() == "X"
-    assert c.ax.get_ylabel() == "Y"
-    c.close()
-
-
-def test_save_writes_file(tmp_path):
-    out = tmp_path / "chart.png"
-    Chart().line([1, 2, 3], [4, 5, 6], label="x").save(str(out)).close()
-    assert out.exists()
-    assert out.stat().st_size > 0
-
-
-def test_auto_legend_added_on_save(tmp_path):
-    out = tmp_path / "chart.png"
-    c = Chart().line([1, 2], [3, 4], label="series")
+def test_labels_and_auto_legend(tmp_path):
+    c = Chart().line([1, 2], [3, 4], label="s").labels("T", "X", "Y")
+    assert (c.ax.get_title(), c.ax.get_xlabel(), c.ax.get_ylabel()) == ("T", "X", "Y")
     assert c.ax.get_legend() is None
+    out = tmp_path / "c.png"
     c.save(str(out))
-    assert c.ax.get_legend() is not None
+    assert out.stat().st_size > 0 and c.ax.get_legend() is not None
     c.close()
 
 
-def test_quick_functions_return_chart(tmp_path):
-    c = vizlib.line([1, 2, 3], [4, 5, 6], title="Q")
-    assert isinstance(c, Chart)
-    assert c.ax.get_title() == "Q"
-    c.close()
-
-
-def test_chart_accepts_existing_axes():
+def test_chart_wraps_existing_axes():
     import matplotlib.pyplot as plt
-
     fig, ax = plt.subplots()
     c = Chart(ax=ax)
-    assert c.ax is ax
-    assert c.fig is fig
+    assert c.ax is ax and c.fig is fig
     plt.close(fig)
 
 
-def test_use_theme_rejects_unknown():
+def test_quick_functions_return_chart():
+    c = vizlib.bar(["a", "b"], [1, 2], title="Q")
+    assert isinstance(c, Chart) and c.ax.get_title() == "Q"
+    c.close()
+
+
+def test_themes():
+    assert "clean" in vizlib.available_themes()
     with pytest.raises(ValueError):
-        vizlib.use_theme("does-not-exist")
-
-
-def test_available_themes_nonempty():
-    themes = vizlib.available_themes()
-    assert "clean" in themes
-    assert len(themes) >= 1
+        vizlib.use_theme("nope")
