@@ -30,8 +30,8 @@ __all__ = ["Chart", "line", "scatter", "bar", "barh", "hist", "pie",
 # under colourblind simulation. Each theme carries the steps tuned for its
 # surface (validated: CVD ΔE >= 8, normal-vision ΔE >= 15, contrast >= 3:1).
 _PALETTES = {  # gold, teal, garnet, sapphire, emerald, amethyst
-    "obsidian": ["#a28626", "#0f9aa4", "#c1514f", "#427bc6", "#299663", "#a562b0"],
-    "ivory": ["#8d7100", "#007a9e", "#ab3939", "#2462b1", "#00814e", "#904c9b"],
+    "obsidian": ["#a28626", "#0f9aa4", "#ac354a", "#4759b7", "#00834e", "#8e4aa7"],
+    "ivory": ["#8d7100", "#007a9e", "#b02f43", "#2d51ab", "#00794a", "#82418f"],
 }
 PALETTE = _PALETTES["obsidian"]  # default palette (the dark theme)
 
