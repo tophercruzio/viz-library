@@ -1,9 +1,9 @@
-"""Tests for vizlib (headless via the Agg backend, set in conftest)."""
+"""Tests (headless via the Agg backend, set in conftest)."""
 
 import pytest
 
-import vizlib
-from vizlib import Chart
+import simple_eda_christophersnook as seda
+from simple_eda_christophersnook import Chart
 
 
 def test_line_is_chainable_and_draws():
@@ -44,18 +44,18 @@ def test_chart_wraps_existing_axes():
 
 
 def test_quick_functions_return_chart():
-    c = vizlib.bar(["a", "b"], [1, 2], title="Q")
+    c = seda.bar(["a", "b"], [1, 2], title="Q")
     assert isinstance(c, Chart) and c.ax.get_title() == "Q"
     c.close()
 
 
 def test_themes():
-    assert "obsidian" in vizlib.available_themes()
-    assert "ivory" in vizlib.available_themes()
+    assert "obsidian" in seda.available_themes()
+    assert "ivory" in seda.available_themes()
     with pytest.raises(ValueError):
-        vizlib.use_theme("nope")
+        seda.use_theme("nope")
 
 
 def test_palette_is_validated_length():
     # Six luxury jewel tones, validated colorblind-safe.
-    assert len(vizlib.PALETTE) == 6
+    assert len(seda.PALETTE) == 6

@@ -1,14 +1,14 @@
-"""Runnable demo of vizlib. Generates a few PNGs in the current directory.
+"""Runnable demo. Generates a few PNGs in the current directory.
 
     python examples/demo.py
 """
 
-import vizlib
-from vizlib import Chart
+import simple_eda_christophersnook as seda
+from simple_eda_christophersnook import Chart
 
 # 1. Quick one-liner.
-vizlib.bar(["Mon", "Tue", "Wed", "Thu", "Fri"], [12, 19, 7, 15, 22],
-           title="Daily signups", ylabel="count").save("demo_bar.png").close()
+seda.bar(["Mon", "Tue", "Wed", "Thu", "Fri"], [12, 19, 7, 15, 22],
+         title="Daily signups", ylabel="count").save("demo_bar.png").close()
 
 # 2. Chainable multi-series line chart (obsidian, the default theme).
 steps = list(range(12))

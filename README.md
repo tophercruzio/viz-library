@@ -1,4 +1,4 @@
-# vizlib
+# simple-eda-christophersnook
 
 A small, functional wrapper around [matplotlib](https://matplotlib.org/) for
 quick, good-looking charts. It gives you sensible defaults and a chainable API,
@@ -10,24 +10,25 @@ without hiding matplotlib when you need it.
 pip install -e .
 ```
 
-Requires Python 3.8+ and `matplotlib>=3.5`.
+Requires Python 3.8+ and `matplotlib>=3.5`. The import package is
+`simple_eda_christophersnook`; the examples below alias it to `seda`.
 
 ## Quick start
 
 One-liners for the common case:
 
 ```python
-import vizlib
+import simple_eda_christophersnook as seda
 
-vizlib.line([1, 2, 3], [4, 5, 6], title="Sales", xlabel="week", ylabel="$").save("sales.png")
-vizlib.bar(["a", "b", "c"], [3, 7, 2], title="Counts").show()
-vizlib.hist([1, 1, 2, 3, 3, 3], bins=3, title="Distribution").save("dist.png")
+seda.line([1, 2, 3], [4, 5, 6], title="Sales", xlabel="week", ylabel="$").save("sales.png")
+seda.bar(["a", "b", "c"], [3, 7, 2], title="Counts").show()
+seda.hist([1, 1, 2, 3, 3, 3], bins=3, title="Distribution").save("dist.png")
 ```
 
 The chainable `Chart` for full control:
 
 ```python
-from vizlib import Chart
+from simple_eda_christophersnook import Chart
 
 (Chart(figsize=(8, 5), theme="obsidian")
     .line(range(10), [x * x for x in range(10)], label="squared")
@@ -44,9 +45,9 @@ Labelled series get a legend automatically when you `save()` or `show()`.
   chainable `Chart` methods and quick module-level functions.
 - **Luxury themes**: `obsidian` (dark, default) and `ivory` (light) — warm
   neutral surfaces, an editorial serif, champagne-gold titles, and a recessive
-  grid. Apply with a `theme=` argument or globally via `vizlib.use_theme(...)`.
+  grid. Apply with a `theme=` argument or globally via `seda.use_theme(...)`.
 - **A validated jewel-tone palette** — gold, teal, garnet, sapphire, emerald,
-  amethyst (`vizlib.PALETTE`), cycled across series. The order is
+  amethyst (`seda.PALETTE`), cycled across series. The order is
   colorblind-safe: it passes CVD ΔE ≥ 8, normal-vision ΔE ≥ 15, and ≥ 3:1
   surface contrast on both themes.
 - **Sensible output**: `save()` uses a tight bounding box and 150 dpi by
@@ -67,7 +68,7 @@ You can also wrap an existing axes, e.g. one cell of a subplot grid:
 
 ```python
 import matplotlib.pyplot as plt
-from vizlib import Chart
+from simple_eda_christophersnook import Chart
 
 fig, axes = plt.subplots(1, 2)
 Chart(ax=axes[0]).line([1, 2, 3], [3, 2, 1])
@@ -84,13 +85,13 @@ Chart(ax=axes[1]).bar(["x", "y"], [4, 8])
 | `.bar(x, height, ...)` / `.barh(y, width, ...)` | Vertical / horizontal bars. |
 | `.hist(data, bins=10, ...)` | Histogram. |
 | `.pie(values, labels=None, ...)` | Pie chart (kept circular). |
-| `.title/.xlabel/.ylabel/.labels(...)` | Text labelling. |
+| `.labels(title, xlabel, ylabel)` | Set title and axis labels in one call. |
 | `.legend/.grid/.xlim/.ylim(...)` | Common axes tweaks. |
 | `.save(path, dpi=150, ...)` | Save to a file. |
 | `.show()` / `.close()` | Display / free the figure. |
-| `vizlib.line/scatter/bar/barh/hist/pie(...)` | Quick single-series charts. |
-| `vizlib.use_theme(name, palette=None)` | Apply a theme globally. |
-| `vizlib.available_themes()` | List theme names. |
+| `seda.line/scatter/bar/barh/hist/pie(...)` | Quick single-series charts. |
+| `seda.use_theme(name, palette=None)` | Apply a theme globally. |
+| `seda.available_themes()` | List theme names. |
 
 ## Development
 

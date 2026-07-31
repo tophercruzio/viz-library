@@ -1,13 +1,14 @@
-"""vizlib — a small, chainable wrapper around matplotlib with a luxe aesthetic.
+"""simple-eda-christophersnook — a small, chainable matplotlib wrapper with a
+luxe aesthetic.
 
-Quick one-liners::
+Quick one-liners (the long import name is usually aliased)::
 
-    import vizlib
-    vizlib.line([1, 2, 3], [4, 5, 6], title="Demo").save("demo.png")
+    import simple_eda_christophersnook as seda
+    seda.line([1, 2, 3], [4, 5, 6], title="Demo").save("demo.png")
 
 Or the chainable Chart, with raw matplotlib always reachable via .fig / .ax::
 
-    from vizlib import Chart
+    from simple_eda_christophersnook import Chart
     Chart().line(x, y, label="a").labels("Demo", "x", "y").save("demo.png")
 
 Two luxury themes ship in: "obsidian" (dark, the default) and "ivory" (light),
